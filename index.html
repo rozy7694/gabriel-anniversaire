@@ -6,26 +6,38 @@
   <title>Mission Laser Game – Gabriel 8 ans</title>
   <link rel="stylesheet" href="style.css">
 
-  <script>
-    const CODE_ACCES = "1001";
-    window.onload = function() {
-      let code = prompt("🔒 Site privé – entre le code d’accès :");
-      if (code !== CODE_ACCES) {
-        document.body.innerHTML =
-          "<h1 style='color:white;text-align:center;margin-top:20%'>Accès refusé</h1>";
-      }
-    }
+ <script>
+function enterSite() {
+  const code = document.getElementById("code").value;
+
+  if (code === "1001") {
+    document.getElementById("gate").style.display = "none";
+    document.getElementById("site").style.display = "block";
+
+    const music = document.getElementById("music");
+    music.play();
+  } else {
+    alert("Code incorrect ❌");
+  }
+}
+   
+</script>
   </script>
 </head>
 
 <body>
 
-<!-- Musique Star Wars autoplay -->
-<iframe
-  src="https://www.youtube.com/embed/_D0ZQPqeJkk?autoplay=1&loop=1&playlist=_D0ZQPqeJkk"
-  allow="autoplay"
-  style="display:none">
-</iframe>
+<div id="gate" class="gate">
+  <h1>🔒 Site privé</h1>
+  <p>Entre le code d’accès</p>
+  <input type="password" id="code" placeholder="Code" />
+  <br><br>
+  <button onclick="enterSite()">🚀 Entrer dans la mission</button>
+</div>
+
+<audio id="music" src="starwars.mp3" loop></audio>
+
+<div id="site" style="display:none">
 
 <header>
   <h1>🦸‍♂️ Mission Laser Game</h1>
@@ -88,6 +100,8 @@
 <footer>
   <p>Site privé – Code d’accès : 1001</p>
 </footer>
+
+</div>
 
 </body>
 </html>
