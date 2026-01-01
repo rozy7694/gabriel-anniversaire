@@ -147,7 +147,7 @@
         <form id="login-form" onsubmit="event.preventDefault(); checkCode();">
             <div class="scanner-line"></div>
             <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00; font-size: 24px;">ACCÈS CLASSÉ SECRET</h1>
-            <p>Mot de passe : <strong>GABRIEL</strong></p>
+            <p>Mot de passe : <strong></strong></p>
             
             <input type="text" id="code-input" placeholder="ENTRER LE CODE" autocomplete="off">
             
@@ -241,7 +241,7 @@
         // CONFIGURATION AUDIO
         var audio = new Audio('musique.mp3');
         audio.loop = true; // ACTIVATION DE LA BOUCLE ICI
-        var isPlaying = false;
+        var isPlaying = true;
         var musicBtn = document.getElementById('music-btn');
 
         // VÉRIFICATION CODE
