@@ -1,107 +1,206 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mission Laser Game – Gabriel 8 ans</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Laser Game - Gabriel 8 ans</title>
+    <style>
+        /* --- STYLE GÉNÉRAL --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #051a05; /* Vert très sombre */
+            font-family: 'Courier New', Courier, monospace; /* Police style "Code" */
+            color: white;
+            overflow-x: hidden;
+        }
 
- <script>
-function enterSite() {
-  const code = document.getElementById("code").value;
+        /* --- ÉCRAN DE SÉCURITÉ (LOGIN) --- */
+        #login-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+        }
+        
+        .scanner-line {
+            width: 100%; height: 2px; background: #00ff00;
+            position: absolute; top: 0;
+            animation: scan 3s infinite linear;
+            opacity: 0.5;
+        }
 
-  if (code === "1001") {
-    document.getElementById("gate").style.display = "none";
-    document.getElementById("site").style.display = "block";
+        @keyframes scan { 0% {top: 0%;} 100% {top: 100%;} }
 
-    const music = document.getElementById("music");
-    music.play();
-  } else {
-    alert("Code incorrect ❌");
-  }
-}
-   
-</script>
-  </script>
+        input {
+            padding: 10px; font-size: 20px; text-align: center;
+            background: #111; border: 2px solid #00ff00; color: #00ff00;
+            margin-bottom: 20px; outline: none; border-radius: 5px;
+        }
+
+        button.access-btn {
+            padding: 10px 20px; font-size: 18px;
+            background: #00ff00; color: #000; border: none;
+            cursor: pointer; font-weight: bold; text-transform: uppercase;
+            border-radius: 5px;
+        }
+        button.access-btn:hover { background: #fff; }
+
+        /* --- ÉCRAN PRINCIPAL (IMAGE) --- */
+        #main-content {
+            display: none; /* Caché au début */
+            display: flex; /* Sera activé par JS */
+            justify-content: center;
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            max-width: 100%;
+            width: 650px; /* Largeur de l'image */
+        }
+
+        .hero-image {
+            width: 100%; height: auto; display: block;
+        }
+
+        /* --- ZONES CLIQUABLES (Positionnement) --- */
+        .hotspot {
+            position: absolute;
+            cursor: pointer;
+            z-index: 10;
+            /* background-color: rgba(255, 0, 0, 0.3); Décommentez pour voir les zones */
+            background-color: transparent; 
+        }
+
+        /* Positions basées sur l'image fournie */
+        .btn-infos { top: 1%; right: 26%; width: 13%; height: 8%; }
+        .btn-programme { top: 1%; right: 14%; width: 13%; height: 8%; }
+        .btn-parents { top: 1%; right: 1%; width: 12%; height: 8%; }
+        /* Zone adresse large en bas à gauche */
+        .btn-adresse { bottom: 3%; left: 3%; width: 45%; height: 12%; }
+
+        /* --- FENÊTRES POP-UP (MODALES) --- */
+        .modal {
+            display: none; 
+            position: fixed; z-index: 2000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            align-items: center; justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #111;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+            padding: 20px;
+            width: 85%; max-width: 500px;
+            text-align: left;
+            position: relative;
+            border-radius: 10px;
+            max-height: 80vh; overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;
+        }
+        .close:hover { color: #00ff00; }
+
+        h2 { color: #00ff00; border-bottom: 1px solid #00ff00; padding-bottom: 10px; margin-top: 0;}
+        p, li { line-height: 1.6; font-size: 16px; }
+        ul { padding-left: 20px; }
+        
+        .whatsapp-btn {
+            display: inline-block; background-color: #25D366; color: white;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-weight: bold; margin-top: 10px; width: 100%; text-align: center; box-sizing: border-box;
+        }
+        
+        .phone-link { color: #00ff00; text-decoration: none; font-weight: bold; }
+
+    </style>
 </head>
-
 <body>
 
-<div id="gate" class="gate">
-  <h1>🔒 Site privé</h1>
-  <p>Entre le code d’accès</p>
-  <input type="password" id="code" placeholder="Code" />
-  <br><br>
-  <button onclick="enterSite()">🚀 Entrer dans la mission</button>
-<audio id="music" src="lightsaber_02.mp3"
+    <div id="login-screen">
+        <div class="scanner-line"></div>
+        <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00;">ACCÈS CLASSÉ SECRET</h1>
+        <p>Veuillez entrer le code de mission</p>
+        <input type="password" id="code-input" placeholder="CODE SÉCURITÉ">
+        <button class="access-btn" onclick="checkCode()">Entrer dans la mission</button>
+        <p id="error-msg" style="color:red; display:none;">Code Incorrect !</p>
+    </div>
 
-</div>
-  
-<div id="site" style="display:none">
+    <div id="main-content" style="display:none;">
+        <div class="container">
+            <img src="gabriel-hero.png" alt="Gabriel fête ses 8 ans" class="hero-image">
 
-<header>
-  <h1>🦸‍♂️ Mission Laser Game</h1>
-  <h2>Gabriel fête ses 8 ans !</h2>
-  <p class="subtitle">Dimanche 11 janvier 2026 • 14h – 17h30</p>
-</header>
+            <div class="hotspot btn-infos" onclick="openModal('modal-infos')"></div>
+            <div class="hotspot btn-programme" onclick="openModal('modal-programme')"></div>
+            <div class="hotspot btn-parents" onclick="openModal('modal-parents')"></div>
+            <div class="hotspot btn-adresse" onclick="openModal('modal-adresse')"></div>
+        </div>
+    </div>
 
-<section class="hero">
-  <img src="gabriel-hero.png" alt="Gabriel super-héros laser game">
-  <p class="catch">
-    Prépare tes blasters et viens aider Gabriel dans sa mission spéciale !
-  </p>
-</section>
+    <div id="modal-infos" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal-infos')">&times;</span>
+            <h2>INFOS MISSION</h2>
+            <p><strong>📅 Date :</strong> Dimanche 11 janvier 2026</p>
+            <p><strong>🕒 Horaire :</strong> 14h00 – 17h30</p>
+            <p style="background: #222; padding: 10px; border-left: 3px solid #00ff00;">
+                "Prépare tes blasters et viens aider Gabriel dans sa mission spéciale !"
+            </p>
+        </div>
+    </div>
 
-<section>
-  <h3>🟢 Briefing de mission</h3>
-  <p><strong>Adresse :</strong> 300 rue d’Estienne d’Orves, 92700 Colombes</p>
-  <p><strong>Accès :</strong> Tram T2 – Jacqueline Auriol</p>
-  <p><strong>Laser Game :</strong> Laser World – La Garenne Colombes (5 min à pied)</p>
-</section>
+    <div id="modal-programme" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal-programme')">&times;</span>
+            <h2>PROGRAMME OPÉRATIONNEL</h2>
+            <ul>
+                <li><strong>14h00 :</strong> Rassemblement des héros</li>
+                <li><strong>Action :</strong> Laser Game chez Laser World</li>
+                <li><strong>Ravitaillement :</strong> Goûter & gâteau d’anniversaire</li>
+                <li><strong>Bonus :</strong> Défis et surprises</li>
+                <li><strong>17h30 :</strong> Fin de la mission</li>
+            </ul>
+        </div>
+    </div>
 
-<section>
-  <h3>🗺️ Accès à pied (Tram → Maison)</h3>
-  <iframe
-    src="https://www.google.com/maps/dir/Jacqueline+Auriol,+92700+Colombes/300+Rue+d'Estienne+d'Orves,+Colombes/@48.9112059,2.2346413,308m/data=!3m2!1e3!4b1!4m14!4m13!1m5!1m1!1s0x47e6644d052834bd:0x6c27fb83d7547915!2m2!1d2.2342!2d48.91073!1m5!1m1!1s0x47e665b33b5086c7:0x8d84b8318a6be2f4!2m2!1d2.2375825!2d48.911906!3e2?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
-    width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
-  </iframe>
-</section>
+    <div id="modal-parents" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal-parents')">&times;</span>
+            <h2>QG PARENTS</h2>
+            <p>L’après-midi sera encadrée par des adultes et se déroulera en toute sécurité.</p>
+            <p>Merci de nous confirmer la présence de votre enfant et si certaines précautions sont à prévoir.</p>
+            <hr style="border-color:#333;">
+            <p><strong>Contacts :</strong><br>
+            📞 Gengas : <a href="tel:0676142896" class="phone-link">06 76 14 28 96</a><br>
+            📞 David : <a href="tel:0673199720" class="phone-link">06 73 19 97 20</a></p>
+            
+            <a href="https://wa.me/33673199720?text=Bonjour%2C%20je%20confirme%20la%20pr%C3%A9sence%20de%20mon%20enfant%20%C3%A0%20l'anniversaire%20de%20Gabriel%20le%2011%20janvier." target="_blank" class="whatsapp-btn">
+                CONFIRMER SUR WHATSAPP 💬
+            </a>
+        </div>
+    </div>
 
-<section>
-  <h3>⚡ Programme</h3>
-  <ul>
-    <li>14h00 – Rassemblement des héros</li>
-    <li>Laser Game chez Laser World</li>
-    <li>Goûter & gâteau d’anniversaire</li>
-    <li>Défis et surprises</li>
-    <li>17h30 – Fin de mission</li>
-  </ul>
-</section>
-
-<section>
-  <h3>💚 Message aux parents</h3>
-  <p>
-    L’après-midi sera encadrée par des adultes et se déroulera en toute sécurité.<br>
-    Merci de nous confirmer la présence de votre enfant et si certaines précautions sont à savoir.
-  </p>
-  <p>
-    <strong>Contacts :</strong><br>
-    Gengas : 06 76 14 28 96<br>
-    David : 06 73 19 97 20
-  </p>
-
-  <a class="whatsapp"
-     href="https://wa.me/33676142896?text=Bonjour%2C%20je%20confirme%20la%20présence%20de%20mon%20enfant%20à%20l'anniversaire%20de%20Gabriel%20le%2011%20janvier."
-     target="_blank">
-     📲 Bonjour, je confirme la présence de 
-  </a>
-</section>
-
-<footer>
-  <p>Site privé – Code d’accès : 1001</p>
-</footer>
-
-</div>
-
-</body>
-</html>
+    <div id="modal-adresse" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal-adresse')">&times;</span>
+            <h2>LIEU DE MISSION</h2>
+            <p><strong>Laser World Colombes</strong><br>
+            300 rue d'Estienne d'Orves<br>92700 Colombes</p>
+            
+            <iframe 
+                width="100%" 
+                height="250" 
+                style="border:0;" 
+                loading="lazy" 
+                allowfullscreen 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.84926673645
