@@ -22,6 +22,11 @@
             justify-content: center; align-items: center;
             z-index: 1000; text-align: center;
         }
+
+        /* Conteneur formulaire pour centrer les éléments */
+        #login-form {
+            display: flex; flex-direction: column; align-items: center; width: 100%;
+        }
         
         .scanner-line {
             width: 100%; height: 2px; background: #00ff00;
@@ -34,40 +39,62 @@
         input {
             padding: 10px; font-size: 20px; text-align: center;
             background: #111; border: 2px solid #00ff00; color: #00ff00;
-            margin-bottom: 20px; outline: none; border-radius: 5px; width: 200px;
+            margin-bottom: 20px; outline: none; border-radius: 5px; width: 220px;
+            text-transform: uppercase; /* Force visuellement en majuscule */
         }
 
         button.access-btn {
-            padding: 10px 20px; font-size: 18px;
+            padding: 10px 30px; font-size: 18px;
             background: #00ff00; color: #000; border: none;
             cursor: pointer; font-weight: bold; text-transform: uppercase;
             border-radius: 5px;
         }
         button.access-btn:hover { background: #fff; }
 
-        /* --- ÉCRAN PRINCIPAL (IMAGE) --- */
+        /* --- ÉCRAN PRINCIPAL --- */
         #main-content {
             display: none; /* Caché au début */
-            justify-content: center; position: relative;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
             padding-bottom: 50px;
+            padding-top: 20px;
         }
+
+        /* BOUTON MUSIQUE CORRIGÉ */
+        #music-control-container {
+            margin-bottom: 15px;
+            z-index: 20;
+        }
+
+        .music-btn {
+            background: #000;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            display: flex; align-items: center; gap: 10px;
+            transition: 0.2s;
+        }
+        .music-btn:hover { background: #00ff00; color: black; }
+        
+        .music-btn.playing {
+             border-color: #ff3333; color: #ff3333;
+        }
+        .music-btn.playing:hover { background: #ff3333; color: white; }
+
 
         .container {
             position: relative; max-width: 100%; width: 650px;
         }
 
-        /* Si l'image est cassée, on affiche un cadre vert pour le voir */
         .hero-image { 
             width: 100%; height: auto; display: block; 
             min-height: 400px; background-color: #0a2e0a; 
-        }
-
-        /* --- BOUTON MUSIQUE --- */
-        #music-control {
-            position: fixed; bottom: 20px; right: 20px;
-            background: rgba(0,0,0,0.7); border: 1px solid #00ff00;
-            color: #00ff00; padding: 10px; border-radius: 50px;
-            cursor: pointer; z-index: 100; font-size: 20px;
         }
 
         /* --- ZONES CLIQUABLES --- */
@@ -76,6 +103,7 @@
             background-color: transparent; 
         }
 
+        /* AJUSTEMENT PRÉCIS DES ZONES */
         .btn-infos { top: 1%; right: 26%; width: 13%; height: 8%; }
         .btn-programme { top: 1%; right: 14%; width: 13%; height: 8%; }
         .btn-parents { top: 1%; right: 1%; width: 12%; height: 8%; }
@@ -118,16 +146,25 @@
 <body>
 
     <div id="login-screen">
-        <div class="scanner-line"></div>
-        <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00; font-size: 24px;">ACCÈS CLASSÉ SECRET</h1>
-        <p>Mot de passe requis (gabriel)</p>
-        <input type="text" id="code-input" placeholder="MOT DE PASSE" autocomplete="off">
-        <button class="access-btn" onclick="checkCode()">Entrer</button>
-        <p id="error-msg" style="color:red; display:none; margin-top:10px;">ACCÈS REFUSÉ</p>
+        <form id="login-form" onsubmit="event.preventDefault(); checkCode();">
+            <div class="scanner-line"></div>
+            <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00; font-size: 24px;">ACCÈS CLASSÉ SECRET</h1>
+            <p>Mot de passe : <strong>GABRIEL</strong></p>
+            
+            <input type="text" id="code-input" placeholder="ENTRER LE CODE" autocomplete="off">
+            
+            <button type="submit" class="access-btn">Entrer</button>
+            <p id="error-msg" style="color:red; display:none; margin-top:10px; font-weight:bold;">CODE INCORRECT</p>
+        </form>
     </div>
 
     <div id="main-content">
-        <button id="music-control" onclick="toggleMusic()">🔇 / 🎵</button>
+        
+        <div id="music-control-container">
+             <button id="music-btn" class="music-btn" onclick="toggleMusic()">
+                <span>🎵 Activer le son</span>
+            </button>
+        </div>
 
         <div class="container">
             <img src="gabriel-hero.jpg" alt="Invitation" class="hero-image" onerror="this.style.display='none'; alert('Erreur: Image non trouvée. Vérifiez le nom du fichier sur GitHub (gabriel-hero.jpg)');">
@@ -190,12 +227,13 @@
             300 rue d'Estienne d'Orves<br>92700 Colombes</p>
             
             <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.8746765276337!2d2.2341935768565256!3d48.91784997133989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e664402a7b31d1%3A0x6b0a70f3f87b8b0!2s300%20Rue%20d&#39;Estienne%20d&#39;Orves%2C%2092700%20Colombes!5e0!3m2!1sfr!2sfr!4v1703606600000!5m2!1sfr!2sfr" 
                 width="100%" 
                 height="300" 
                 style="border:0; border-radius: 5px;" 
+                allowfullscreen="" 
                 loading="lazy" 
-                allowfullscreen 
-                src="https://maps.google.com/maps?q=300+rue+d'Estienne+d'Orves+92700+Colombes&t=&z=15&ie=UTF8&iwloc=&output=embed">
+                referrerpolicy="no-referrer-when-downgrade">
             </iframe>
         </div>
     </div>
@@ -204,46 +242,51 @@
         // CONFIGURATION AUDIO
         var audio = new Audio('musique.mp3');
         var isPlaying = false;
+        var musicBtn = document.getElementById('music-btn');
 
-        // VÉRIFICATION CODE
+        // VÉRIFICATION CODE (AMÉLIORÉE)
         function checkCode() {
-            var codeInput = document.getElementById('code-input').value;
+            var codeInput = document.getElementById('code-input');
             var errorMsg = document.getElementById('error-msg');
             
-            var codeNettoye = codeInput.trim().toLowerCase();
+            // On récupère la valeur et on nettoie (espaces + minuscule)
+            var val = codeInput.value;
+            if (!val) { val = ""; } // Sécurité si vide
+            var codeNettoye = val.trim().toLowerCase();
 
+            // VÉRIFICATION : 'gabriel'
             if(codeNettoye === 'gabriel') {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
-                // PAS DE PLAY() AUTOMATIQUE ICI
+                // On cache le clavier virtuel sur mobile
+                codeInput.blur();
             } else {
                 errorMsg.style.display = 'block';
-                document.getElementById('code-input').style.borderColor = "red";
+                codeInput.style.borderColor = "red";
+                // Animation de secousse (optionnel, simple retour visuel)
+                codeInput.value = ""; 
+                codeInput.placeholder = "ESSAYE ENCORE";
             }
         }
 
-        // GESTION MUSIQUE (Bouton)
+        // GESTION MUSIQUE
         function toggleMusic() {
             if (isPlaying) {
                 audio.pause();
                 isPlaying = false;
+                musicBtn.classList.remove('playing');
+                musicBtn.innerHTML = "<span>🎵 Relancer le son</span>";
             } else {
                 audio.play();
                 isPlaying = true;
+                musicBtn.classList.add('playing');
+                musicBtn.innerHTML = "<span>🔇 Arrêter le son</span>";
             }
         }
-
-        // Taper Entrée pour valider
-        document.getElementById("code-input").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                checkCode();
-            }
-        });
 
         // MODALES
         function openModal(id) { document.getElementById(id).style.display = "flex"; }
         function closeModal(id) { document.getElementById(id).style.display = "none"; }
-        
         window.onclick = function(e) {
             if (e.target.classList.contains('modal')) { e.target.style.display = "none"; }
         }
