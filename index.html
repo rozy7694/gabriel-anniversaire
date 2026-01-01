@@ -6,138 +6,40 @@
     <title>Mission Laser Game - Gabriel 8 ans</title>
     <style>
         /* --- STYLE GÉNÉRAL --- */
-        body {
-            margin: 0; padding: 0;
-            background-color: #051a05; /* Vert très sombre */
-            font-family: 'Courier New', Courier, monospace;
-            color: white;
-            overflow-x: hidden;
-        }
+        body { margin: 0; padding: 0; background-color: #051a05; font-family: 'Courier New', Courier, monospace; color: white; overflow-x: hidden; }
 
-        /* --- ÉCRAN DE SÉCURITÉ (LOGIN) --- */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            z-index: 1000; text-align: center;
-        }
-
-        #login-form {
-            display: flex; flex-direction: column; align-items: center; width: 100%;
-        }
-        
-        .scanner-line {
-            width: 100%; height: 2px; background: #00ff00;
-            position: absolute; top: 0;
-            animation: scan 3s infinite linear; opacity: 0.5;
-        }
-
+        /* --- LOGIN --- */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; text-align: center; }
+        .scanner-line { width: 100%; height: 2px; background: #00ff00; position: absolute; top: 0; animation: scan 3s infinite linear; opacity: 0.5; }
         @keyframes scan { 0% {top: 0%;} 100% {top: 100%;} }
-
-        input {
-            padding: 10px; font-size: 20px; text-align: center;
-            background: #111; border: 2px solid #00ff00; color: #00ff00;
-            margin-bottom: 20px; outline: none; border-radius: 5px; width: 220px;
-            text-transform: uppercase;
-        }
-
-        button.access-btn {
-            padding: 10px 30px; font-size: 18px;
-            background: #00ff00; color: #000; border: none;
-            cursor: pointer; font-weight: bold; text-transform: uppercase;
-            border-radius: 5px;
-        }
-        button.access-btn:hover { background: #fff; }
-
-        /* --- ÉCRAN PRINCIPAL --- */
-        #main-content {
-            display: none; /* Caché au début */
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            padding-bottom: 50px;
-            padding-top: 20px;
-        }
-
-        /* BOUTON MUSIQUE */
-        #music-control-container {
-            margin-bottom: 15px;
-            z-index: 20;
-        }
-
-        .music-btn {
-            background: #000;
-            border: 2px solid #00ff00;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            text-transform: uppercase;
-            display: flex; align-items: center; gap: 10px;
-            transition: 0.2s;
-        }
-        .music-btn:hover { background: #00ff00; color: black; }
         
-        .music-btn.playing {
-             border-color: #ff3333; color: #ff3333;
-        }
-        .music-btn.playing:hover { background: #ff3333; color: white; }
+        input { padding: 10px; font-size: 20px; text-align: center; background: #111; border: 2px solid #00ff00; color: #00ff00; margin-bottom: 20px; outline: none; border-radius: 5px; width: 220px; text-transform: uppercase; }
+        button.access-btn { padding: 10px 30px; font-size: 18px; background: #00ff00; color: #000; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
 
+        /* --- MAIN --- */
+        #main-content { display: none; flex-direction: column; align-items: center; position: relative; padding-bottom: 50px; padding-top: 20px; }
+        #music-control-container { margin-bottom: 15px; z-index: 20; }
+        .music-btn { background: #000; border: 2px solid #00ff00; color: #00ff00; font-family: 'Courier New', Courier, monospace; font-weight: bold; padding: 10px 20px; border-radius: 50px; cursor: pointer; text-transform: uppercase; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+        .music-btn.playing { border-color: #ff3333; color: #ff3333; }
+        
+        .container { position: relative; max-width: 100%; width: 650px; }
+        .hero-image { width: 100%; height: auto; display: block; min-height: 400px; background-color: #0a2e0a; }
 
-        .container {
-            position: relative; max-width: 100%; width: 650px;
-        }
-
-        .hero-image { 
-            width: 100%; height: auto; display: block; 
-            min-height: 400px; background-color: #0a2e0a; 
-        }
-
-        /* --- ZONES CLIQUABLES --- */
-        .hotspot {
-            position: absolute; cursor: pointer; z-index: 10;
-            background-color: transparent; 
-        }
-
+        /* --- ZONES --- */
+        .hotspot { position: absolute; cursor: pointer; z-index: 10; background-color: transparent; }
         .btn-infos { top: 1%; right: 26%; width: 13%; height: 8%; }
         .btn-programme { top: 1%; right: 14%; width: 13%; height: 8%; }
         .btn-parents { top: 1%; right: 1%; width: 12%; height: 8%; }
-        .btn-adresse { bottom: 3%; left: 3%; width: 45%; height: 12%; }
+        .btn-adresse-txt { bottom: 3%; left: 3%; width: 40%; height: 12%; }
+        .btn-map-direct { bottom: 3%; right: 3%; width: 50%; height: 15%; }
 
-        /* --- POP-UPS --- */
-        .modal {
-            display: none; position: fixed; z-index: 2000;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            align-items: center; justify-content: center;
-        }
-
-        .modal-content {
-            background-color: #111; border: 2px solid #00ff00;
-            box-shadow: 0 0 20px #00ff00; padding: 20px;
-            width: 85%; max-width: 500px; text-align: left;
-            position: relative; border-radius: 10px;
-            max-height: 80vh; overflow-y: auto;
-        }
-
-        .close {
-            color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;
-        }
-        .close:hover { color: #00ff00; }
-
+        /* --- MODALES --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
+        .modal-content { background-color: #111; border: 2px solid #00ff00; box-shadow: 0 0 20px #00ff00; padding: 20px; width: 85%; max-width: 500px; text-align: left; position: relative; border-radius: 10px; max-height: 80vh; overflow-y: auto; }
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
         h2 { color: #00ff00; border-bottom: 1px solid #00ff00; padding-bottom: 10px; margin-top: 0;}
         p, li { line-height: 1.6; font-size: 16px; margin-bottom: 10px; }
-        ul { padding-left: 20px; }
-        
-        .whatsapp-btn {
-            display: inline-block; background-color: #25D366; color: white;
-            padding: 10px 15px; text-decoration: none; border-radius: 5px;
-            font-weight: bold; margin-top: 10px; width: 100%; text-align: center; box-sizing: border-box;
-        }
-        
+        .whatsapp-btn { display: inline-block; background-color: #25D366; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; width: 100%; text-align: center; box-sizing: border-box; }
         .phone-link { color: #00ff00; text-decoration: none; font-weight: bold; }
     </style>
 </head>
@@ -147,146 +49,105 @@
         <form id="login-form" onsubmit="event.preventDefault(); checkCode();">
             <div class="scanner-line"></div>
             <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00; font-size: 24px;">ACCÈS CLASSÉ SECRET</h1>
-            <p>Mot de passe : <strong></strong></p>
-            
+            <p>Mot de passe : <strong>GABRIEL</strong></p>
             <input type="text" id="code-input" placeholder="ENTRER LE CODE" autocomplete="off">
-            
             <button type="submit" class="access-btn">Entrer</button>
             <p id="error-msg" style="color:red; display:none; margin-top:10px; font-weight:bold;">CODE INCORRECT</p>
         </form>
     </div>
 
     <div id="main-content">
-        
         <div id="music-control-container">
-             <button id="music-btn" class="music-btn" onclick="toggleMusic()">
-                <span>🎵 Activer le son</span>
-            </button>
+             <button id="music-btn" class="music-btn" onclick="toggleMusic()"><span>🎵 Son activé</span></button>
         </div>
-
         <div class="container">
-            <img src="gabriel-hero.jpg" alt="Invitation" class="hero-image" onerror="this.style.display='none'; alert('Erreur: Image non trouvée. Vérifiez le nom du fichier sur GitHub (gabriel-hero.jpg)');">
-
+            <img src="gabriel-hero.jpg" alt="Invitation" class="hero-image">
             <div class="hotspot btn-infos" onclick="openModal('modal-infos')"></div>
             <div class="hotspot btn-programme" onclick="openModal('modal-programme')"></div>
             <div class="hotspot btn-parents" onclick="openModal('modal-parents')"></div>
-            <div class="hotspot btn-adresse" onclick="openModal('modal-adresse')"></div>
+            <div class="hotspot btn-adresse-txt" onclick="openModal('modal-adresse')"></div>
+            <a href="https://www.google.com/maps/dir/?api=1&origin=Arrêt+Tram+T2+Jacqueline+Auriol&destination=300+rue+d'Estienne+d'Orves,+Colombes&travelmode=walking" target="_blank" class="hotspot btn-map-direct"></a>
         </div>
     </div>
 
-    <div id="modal-infos" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-infos')">×</span>
-            <h2>INFOS MISSION</h2>
-            <p><strong>📅 Date :</strong> Dimanche 11 janvier 2026</p>
-            <p><strong>🕒 Horaire :</strong> 14h00 – 17h30</p>
-            <p style="background: #222; padding: 10px; border-left: 3px solid #00ff00; margin-top: 15px;">
-                "Prépare tes blasters et viens aider Gabriel dans sa mission spéciale !"
-            </p>
-        </div>
-    </div>
-
-    <div id="modal-programme" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-programme')">×</span>
-            <h2>PROGRAMME OPÉRATIONNEL</h2>
-            <ul>
-                <li><strong>14h00 :</strong> Rassemblement des héros</li>
-                <li><strong>Action :</strong> Laser Game chez Laser World</li>
-                <li><strong>Ravitaillement :</strong> Goûter & gâteau d’anniversaire</li>
-                <li><strong>Bonus :</strong> Défis et surprises</li>
-                <li><strong>17h30 :</strong> Fin de la mission</li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="modal-parents" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-parents')">×</span>
-            <h2>QG PARENTS</h2>
-            <p>L’après-midi sera encadrée par des adultes et se déroulera en toute sécurité.</p>
-            <p>Merci de nous confirmer la présence de votre enfant.</p>
-            <hr style="border-color:#333;">
-            <p><strong>Contacts :</strong><br>
-            📞 Gengas : <a href="tel:0676142896" class="phone-link">06 76 14 28 96</a><br>
-            📞 David : <a href="tel:0673199720" class="phone-link">06 73 19 97 20</a></p>
-            
-            <a href="https://wa.me/33673199720?text=Bonjour%2C%20je%20confirme%20la%20pr%C3%A9sence%20de%20mon%20enfant%20%C3%A0%20l'anniversaire%20de%20Gabriel%20le%2011%20janvier." target="_blank" class="whatsapp-btn">
-                CONFIRMER SUR WHATSAPP 💬
-            </a>
-        </div>
-    </div>
-
-    <div id="modal-adresse" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-adresse')">×</span>
-            <h2>LIEU DE MISSION</h2>
-            <p><strong>Chez Gabriel</strong><br>
-            300 rue d'Estienne d'Orves<br>92700 Colombes</p>
-            
-            <iframe
-                width="100%"
-                height="300"
-                frameborder="0"
-                scrolling="no"
-                marginheight="0"
-                marginwidth="0"
-                style="border:0; border-radius: 5px;"
-                src="https://maps.google.com/maps?q=300%20rue%20d'Estienne%20d'Orves%2092700%20Colombes&t=&z=15&ie=UTF8&iwloc=&output=embed">
-            </iframe>
-        </div>
-    </div>
+    <div id="modal-infos" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-infos')">×</span><h2>INFOS</h2><p><strong>📅 Date :</strong> Dimanche 11 janvier 2026</p><p><strong>🕒 14h00 – 17h30</strong></p></div></div>
+    <div id="modal-programme" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-programme')">×</span><h2>PROGRAMME</h2><ul><li>14h00 : Accueil</li><li>Laser Game</li><li>Gâteau</li><li>17h30 : Fin</li></ul></div></div>
+    <div id="modal-parents" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-parents')">×</span><h2>CONTACTS</h2><p>Gengas : <a href="tel:0676142896" class="phone-link">06 76 14 28 96</a><br>David : <a href="tel:0673199720" class="phone-link">06 73 19 97 20</a></p><a href="https://wa.me/33673199720" target="_blank" class="whatsapp-btn">WHATSAPP</a></div></div>
+    <div id="modal-adresse" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-adresse')">×</span><h2>LIEU</h2><p>Laser World Colombes<br>300 rue d'Estienne d'Orves</p><iframe width="100%" height="250" style="border:0;" src="https://maps.google.com/maps?q=300+Rue+d'Estienne+d'Orves,+92700+Colombes&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe></div></div>
 
     <script>
-        // CONFIGURATION AUDIO
-        var audio = new Audio('musique.mp3');
-        audio.loop = true; // ACTIVATION DE LA BOUCLE ICI
-        var isPlaying = true;
+        // --- SONS ---
+        var music = new Audio('musique.mp3'); music.loop = true;
+        
+        // Bruitage respiration (Optionnel, ne plante pas si absent)
+        var breath = new Audio('swvader02.mp3'); 
+
+        var isPlaying = false;
         var musicBtn = document.getElementById('music-btn');
 
-        // VÉRIFICATION CODE
-        function checkCode() {
-            var codeInput = document.getElementById('code-input');
-            var errorMsg = document.getElementById('error-msg');
+        // --- SYNTHÈSE VOCALE (LE ROBOT PARLE) ---
+        function speakVador() {
+            // Création de la phrase
+            var msg = new SpeechSynthesisUtterance();
+            msg.text = "jeune Jedi.... Viens me défier.... à l'anniversaire de Gabriel !";
+            msg.lang = 'fr-FR'; // Langue française
+            msg.volume = 1;
             
-            var val = codeInput.value;
-            if (!val) { val = ""; }
-            var codeNettoye = val.trim().toLowerCase();
+            // C'est ici qu'on transforme la voix
+            msg.rate = 0.8;  // Plus lent (0.1 à 10)
+            msg.pitch = 0.4; // Plus grave (0 à 2) - Essayez 0.1 pour un monstre
 
-            if(codeNettoye === 'gabriel') {
+            // Quand le robot a fini de parler, on lance la musique
+            msg.onend = function(e) {
+                music.play();
+                isPlaying = true;
+                updateBtnUI();
+            };
+
+            // Lancer la respiration puis la parole
+            breath.play().catch(e => console.log("Pas de fichier respiration"));
+            
+            // Petit délai pour que la respiration commence avant la voix
+            setTimeout(function() {
+                window.speechSynthesis.speak(msg);
+            }, 1000);
+        }
+
+        // --- CHECK CODE ---
+        function checkCode() {
+            var val = document.getElementById('code-input').value.trim().toLowerCase();
+            if(val === 'gabriel') {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
-                codeInput.blur();
-            } else {
-                errorMsg.style.display = 'block';
-                codeInput.style.borderColor = "red";
-                codeInput.value = ""; 
-                codeInput.placeholder = "ESSAYE ENCORE";
-            }
-        }
-
-        // GESTION MUSIQUE
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                musicBtn.classList.remove('playing');
-                musicBtn.innerHTML = "<span>🎵 Relancer le son</span>";
-            } else {
-                audio.play();
+                
                 isPlaying = true;
-                musicBtn.classList.add('playing');
-                musicBtn.innerHTML = "<span>🔇 Arrêter le son</span>";
+                updateBtnUI();
+                
+                // Lancement de la séquence vocale automatique
+                speakVador();
+                
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
             }
         }
 
-        // MODALES
+        function toggleMusic() {
+            if(isPlaying) {
+                music.pause(); window.speechSynthesis.cancel(); isPlaying = false;
+            } else {
+                music.play(); isPlaying = true;
+            }
+            updateBtnUI();
+        }
+
+        function updateBtnUI() {
+            musicBtn.innerHTML = isPlaying ? "<span>🔇 Silence</span>" : "<span>🎵 Activer</span>";
+            musicBtn.classList.toggle('playing', isPlaying);
+        }
+
         function openModal(id) { document.getElementById(id).style.display = "flex"; }
         function closeModal(id) { document.getElementById(id).style.display = "none"; }
-        window.onclick = function(e) {
-            if (e.target.classList.contains('modal')) { e.target.style.display = "none"; }
-        }
+        window.onclick = function(e) { if(e.target.classList.contains('modal')) e.target.style.display="none"; }
     </script>
-
 </body>
 </html>
