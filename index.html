@@ -148,3 +148,80 @@
                 <li><strong>Bonus :</strong> Défis et surprises</li>
                 <li><strong>17h30 :</strong> Fin de la mission</li>
             </ul>
+        </div>
+    </div>
+
+    <div id="modal-parents" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal-parents')">×</span>
+            <h2>QG PARENTS</h2>
+            <p>L’après-midi sera encadrée par des adultes et se déroulera en toute sécurité.</p>
+            <p>Merci de nous confirmer la présence de votre enfant.</p>
+            <hr style="border-color:#333;">
+            <p><strong>Contacts :</strong><br>
+            📞 Gengas : <a href="tel:0676142896" class="phone-link">06 76 14 28 96</a><br>
+            📞 David : <a href="tel:0673199720" class="phone-link">06 73 19 97 20</a></p>
+            
+            <a href="https://wa.me/33673199720?text=Bonjour%2C%20je%20confirme%20la%20pr%C3%A9sence%20de%20mon%20enfant%20%C3%A0%20l'anniversaire%20de%20Gabriel%20le%2011%20janvier." target="_blank" class="whatsapp-btn">
+                CONFIRMER SUR WHATSAPP 💬
+            </a>
+        </div>
+    </div>
+
+    <div id="modal-adresse" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal-adresse')">×</span>
+            <h2>LIEU DE MISSION</h2>
+            <p><strong>Laser World Colombes</strong><br>
+            300 rue d'Estienne d'Orves<br>92700 Colombes</p>
+            
+            <iframe 
+                width="100%" 
+                height="300" 
+                style="border:0; border-radius: 5px;" 
+                loading="lazy" 
+                allowfullscreen 
+                src="https://maps.google.com/maps?q=300+rue+d'Estienne+d'Orves+92700+Colombes&t=&z=15&ie=UTF8&iwloc=&output=embed">
+            </iframe>
+        </div>
+    </div>
+
+    <script>
+        // FONCTION DE VÉRIFICATION DU CODE
+        function checkCode() {
+            var code = document.getElementById('code-input').value;
+            var errorMsg = document.getElementById('error-msg');
+            
+            // LE CODE EST DÉFINI ICI : 1001
+            if(code === '1001') {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'flex';
+                
+                // Lancer la musique
+                var audio = new Audio('musique.mp3');
+                audio.volume = 0.5;
+                audio.play().catch(function(e) { console.log("Lecture auto bloquée"); });
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('code-input').style.borderColor = "red";
+            }
+        }
+
+        // Valider avec la touche Entrée
+        document.getElementById("code-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkCode();
+            }
+        });
+
+        // GESTION DES MODALES
+        function openModal(id) { document.getElementById(id).style.display = "flex"; }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+        
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) { e.target.style.display = "none"; }
+        }
+    </script>
+
+</body>
+</html>
