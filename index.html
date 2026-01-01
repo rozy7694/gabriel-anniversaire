@@ -23,7 +23,6 @@
             z-index: 1000; text-align: center;
         }
 
-        /* Conteneur formulaire pour centrer les éléments */
         #login-form {
             display: flex; flex-direction: column; align-items: center; width: 100%;
         }
@@ -40,7 +39,7 @@
             padding: 10px; font-size: 20px; text-align: center;
             background: #111; border: 2px solid #00ff00; color: #00ff00;
             margin-bottom: 20px; outline: none; border-radius: 5px; width: 220px;
-            text-transform: uppercase; /* Force visuellement en majuscule */
+            text-transform: uppercase;
         }
 
         button.access-btn {
@@ -61,7 +60,7 @@
             padding-top: 20px;
         }
 
-        /* BOUTON MUSIQUE CORRIGÉ */
+        /* BOUTON MUSIQUE */
         #music-control-container {
             margin-bottom: 15px;
             z-index: 20;
@@ -103,7 +102,6 @@
             background-color: transparent; 
         }
 
-        /* AJUSTEMENT PRÉCIS DES ZONES */
         .btn-infos { top: 1%; right: 26%; width: 13%; height: 8%; }
         .btn-programme { top: 1%; right: 14%; width: 13%; height: 8%; }
         .btn-parents { top: 1%; right: 1%; width: 12%; height: 8%; }
@@ -226,14 +224,15 @@
             <p><strong>Laser World Colombes</strong><br>
             300 rue d'Estienne d'Orves<br>92700 Colombes</p>
             
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.8746765276337!2d2.2341935768565256!3d48.91784997133989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e664402a7b31d1%3A0x6b0a70f3f87b8b0!2s300%20Rue%20d&#39;Estienne%20d&#39;Orves%2C%2092700%20Colombes!5e0!3m2!1sfr!2sfr!4v1703606600000!5m2!1sfr!2sfr" 
-                width="100%" 
-                height="300" 
-                style="border:0; border-radius: 5px;" 
-                allowfullscreen="" 
-                loading="lazy" 
-                referrerpolicy="no-referrer-when-downgrade">
+            <iframe
+                width="100%"
+                height="300"
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
+                style="border:0; border-radius: 5px;"
+                src="https://maps.google.com/maps?q=300%20rue%20d'Estienne%20d'Orves%2092700%20Colombes&t=&z=15&ie=UTF8&iwloc=&output=embed">
             </iframe>
         </div>
     </div>
@@ -241,29 +240,26 @@
     <script>
         // CONFIGURATION AUDIO
         var audio = new Audio('musique.mp3');
+        audio.loop = true; // ACTIVATION DE LA BOUCLE ICI
         var isPlaying = false;
         var musicBtn = document.getElementById('music-btn');
 
-        // VÉRIFICATION CODE (AMÉLIORÉE)
+        // VÉRIFICATION CODE
         function checkCode() {
             var codeInput = document.getElementById('code-input');
             var errorMsg = document.getElementById('error-msg');
             
-            // On récupère la valeur et on nettoie (espaces + minuscule)
             var val = codeInput.value;
-            if (!val) { val = ""; } // Sécurité si vide
+            if (!val) { val = ""; }
             var codeNettoye = val.trim().toLowerCase();
 
-            // VÉRIFICATION : 'gabriel'
             if(codeNettoye === 'gabriel') {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
-                // On cache le clavier virtuel sur mobile
                 codeInput.blur();
             } else {
                 errorMsg.style.display = 'block';
                 codeInput.style.borderColor = "red";
-                // Animation de secousse (optionnel, simple retour visuel)
                 codeInput.value = ""; 
                 codeInput.placeholder = "ESSAYE ENCORE";
             }
