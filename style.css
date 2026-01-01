@@ -1,0 +1,38 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0b2e1a;
+  color: #eaffea;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #1faa59;
+  padding: 20px;
+  text-align: center;
+}
+
+.subtitle {
+  font-style: italic;
+}
+
+section {
+  padding: 20px;
+  border-bottom: 1px solid #1faa59;
+}
+
+h3 {
+  color: #7CFF9B;
+}
+
+ul li {
+  margin-bottom: 8px;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  background: #062013;
+}
