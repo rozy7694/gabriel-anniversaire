@@ -7,32 +7,26 @@
     <style>
         /* --- STYLE GÉNÉRAL --- */
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: #051a05; /* Vert très sombre */
-            font-family: 'Courier New', Courier, monospace; /* Police style "Code" */
+            font-family: 'Courier New', Courier, monospace;
             color: white;
             overflow-x: hidden;
         }
 
         /* --- ÉCRAN DE SÉCURITÉ (LOGIN) --- */
         #login-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            text-align: center;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 1000; text-align: center;
         }
         
         .scanner-line {
             width: 100%; height: 2px; background: #00ff00;
             position: absolute; top: 0;
-            animation: scan 3s infinite linear;
-            opacity: 0.5;
+            animation: scan 3s infinite linear; opacity: 0.5;
         }
 
         @keyframes scan { 0% {top: 0%;} 100% {top: 100%;} }
@@ -40,7 +34,7 @@
         input {
             padding: 10px; font-size: 20px; text-align: center;
             background: #111; border: 2px solid #00ff00; color: #00ff00;
-            margin-bottom: 20px; outline: none; border-radius: 5px;
+            margin-bottom: 20px; outline: none; border-radius: 5px; width: 200px;
         }
 
         button.access-btn {
@@ -54,55 +48,40 @@
         /* --- ÉCRAN PRINCIPAL (IMAGE) --- */
         #main-content {
             display: none; /* Caché au début */
-            display: flex; /* Sera activé par JS */
-            justify-content: center;
-            position: relative;
+            justify-content: center; position: relative;
+            padding-bottom: 50px;
         }
 
         .container {
-            position: relative;
-            max-width: 100%;
-            width: 650px; /* Largeur de l'image */
+            position: relative; max-width: 100%; width: 650px;
         }
 
-        .hero-image {
-            width: 100%; height: auto; display: block;
-        }
+        .hero-image { width: 100%; height: auto; display: block; }
 
-        /* --- ZONES CLIQUABLES (Positionnement) --- */
+        /* --- ZONES CLIQUABLES --- */
         .hotspot {
-            position: absolute;
-            cursor: pointer;
-            z-index: 10;
-            /* background-color: rgba(255, 0, 0, 0.3); Décommentez pour voir les zones */
-            background-color: transparent; 
+            position: absolute; cursor: pointer; z-index: 10;
+            background-color: transparent; /* Mettre rgba(255,0,0,0.5) pour tester les positions */
         }
 
-        /* Positions basées sur l'image fournie */
         .btn-infos { top: 1%; right: 26%; width: 13%; height: 8%; }
         .btn-programme { top: 1%; right: 14%; width: 13%; height: 8%; }
         .btn-parents { top: 1%; right: 1%; width: 12%; height: 8%; }
-        /* Zone adresse large en bas à gauche */
         .btn-adresse { bottom: 3%; left: 3%; width: 45%; height: 12%; }
 
-        /* --- FENÊTRES POP-UP (MODALES) --- */
+        /* --- POP-UPS --- */
         .modal {
-            display: none; 
-            position: fixed; z-index: 2000;
+            display: none; position: fixed; z-index: 2000;
             left: 0; top: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.9);
             align-items: center; justify-content: center;
         }
 
         .modal-content {
-            background-color: #111;
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 20px #00ff00;
-            padding: 20px;
-            width: 85%; max-width: 500px;
-            text-align: left;
-            position: relative;
-            border-radius: 10px;
+            background-color: #111; border: 2px solid #00ff00;
+            box-shadow: 0 0 20px #00ff00; padding: 20px;
+            width: 85%; max-width: 500px; text-align: left;
+            position: relative; border-radius: 10px;
             max-height: 80vh; overflow-y: auto;
         }
 
@@ -112,7 +91,7 @@
         .close:hover { color: #00ff00; }
 
         h2 { color: #00ff00; border-bottom: 1px solid #00ff00; padding-bottom: 10px; margin-top: 0;}
-        p, li { line-height: 1.6; font-size: 16px; }
+        p, li { line-height: 1.6; font-size: 16px; margin-bottom: 10px; }
         ul { padding-left: 20px; }
         
         .whatsapp-btn {
@@ -122,23 +101,22 @@
         }
         
         .phone-link { color: #00ff00; text-decoration: none; font-weight: bold; }
-
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div class="scanner-line"></div>
-        <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00;">ACCÈS CLASSÉ SECRET</h1>
-        <p>Veuillez entrer le code de mission</p>
-        <input type="password" id="code-input" placeholder="CODE SÉCURITÉ">
-        <button class="access-btn" onclick="checkCode()">Entrer dans la mission</button>
-        <p id="error-msg" style="color:red; display:none;">Code Incorrect !</p>
+        <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00; font-size: 24px;">ACCÈS CLASSÉ SECRET</h1>
+        <p>Entrez le code de mission</p>
+        <input type="password" id="code-input" placeholder="CODE">
+        <button class="access-btn" onclick="checkCode()">Entrer</button>
+        <p id="error-msg" style="color:red; display:none; margin-top:10px;">CODE INCORRECT</p>
     </div>
 
-    <div id="main-content" style="display:none;">
+    <div id="main-content">
         <div class="container">
-            <img src="gabriel-hero.png" alt="Gabriel fête ses 8 ans" class="hero-image">
+            <img src="gabriel-hero.jpg" alt="Invitation" class="hero-image">
 
             <div class="hotspot btn-infos" onclick="openModal('modal-infos')"></div>
             <div class="hotspot btn-programme" onclick="openModal('modal-programme')"></div>
@@ -149,11 +127,11 @@
 
     <div id="modal-infos" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-infos')">&times;</span>
+            <span class="close" onclick="closeModal('modal-infos')">×</span>
             <h2>INFOS MISSION</h2>
             <p><strong>📅 Date :</strong> Dimanche 11 janvier 2026</p>
             <p><strong>🕒 Horaire :</strong> 14h00 – 17h30</p>
-            <p style="background: #222; padding: 10px; border-left: 3px solid #00ff00;">
+            <p style="background: #222; padding: 10px; border-left: 3px solid #00ff00; margin-top: 15px;">
                 "Prépare tes blasters et viens aider Gabriel dans sa mission spéciale !"
             </p>
         </div>
@@ -161,7 +139,7 @@
 
     <div id="modal-programme" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-programme')">&times;</span>
+            <span class="close" onclick="closeModal('modal-programme')">×</span>
             <h2>PROGRAMME OPÉRATIONNEL</h2>
             <ul>
                 <li><strong>14h00 :</strong> Rassemblement des héros</li>
@@ -170,37 +148,3 @@
                 <li><strong>Bonus :</strong> Défis et surprises</li>
                 <li><strong>17h30 :</strong> Fin de la mission</li>
             </ul>
-        </div>
-    </div>
-
-    <div id="modal-parents" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-parents')">&times;</span>
-            <h2>QG PARENTS</h2>
-            <p>L’après-midi sera encadrée par des adultes et se déroulera en toute sécurité.</p>
-            <p>Merci de nous confirmer la présence de votre enfant et si certaines précautions sont à prévoir.</p>
-            <hr style="border-color:#333;">
-            <p><strong>Contacts :</strong><br>
-            📞 Gengas : <a href="tel:0676142896" class="phone-link">06 76 14 28 96</a><br>
-            📞 David : <a href="tel:0673199720" class="phone-link">06 73 19 97 20</a></p>
-            
-            <a href="https://wa.me/33673199720?text=Bonjour%2C%20je%20confirme%20la%20pr%C3%A9sence%20de%20mon%20enfant%20%C3%A0%20l'anniversaire%20de%20Gabriel%20le%2011%20janvier." target="_blank" class="whatsapp-btn">
-                CONFIRMER SUR WHATSAPP 💬
-            </a>
-        </div>
-    </div>
-
-    <div id="modal-adresse" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-adresse')">&times;</span>
-            <h2>LIEU DE MISSION</h2>
-            <p><strong>Laser World Colombes</strong><br>
-            300 rue d'Estienne d'Orves<br>92700 Colombes</p>
-            
-            <iframe 
-                width="100%" 
-                height="250" 
-                style="border:0;" 
-                loading="lazy" 
-                allowfullscreen 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.84926673645
