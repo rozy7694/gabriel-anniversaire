@@ -7,8 +7,8 @@
     <style>
         /* --- STYLE GÉNÉRAL --- */
         body { margin: 0; padding: 0; background-color: #051a05; font-family: 'Courier New', Courier, monospace; color: white; overflow-x: hidden; }
-
-        /* --- LOGIN --- */
+        
+        /* LOGIN SCREEN */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; text-align: center; }
         .scanner-line { width: 100%; height: 2px; background: #00ff00; position: absolute; top: 0; animation: scan 3s infinite linear; opacity: 0.5; }
         @keyframes scan { 0% {top: 0%;} 100% {top: 100%;} }
@@ -16,16 +16,20 @@
         input { padding: 10px; font-size: 20px; text-align: center; background: #111; border: 2px solid #00ff00; color: #00ff00; margin-bottom: 20px; outline: none; border-radius: 5px; width: 220px; text-transform: uppercase; }
         button.access-btn { padding: 10px 30px; font-size: 18px; background: #00ff00; color: #000; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
 
-        /* --- MAIN --- */
+        /* MAIN CONTENT */
         #main-content { display: none; flex-direction: column; align-items: center; position: relative; padding-bottom: 50px; padding-top: 20px; }
+        
+        /* BOUTON MUSIQUE */
         #music-control-container { margin-bottom: 15px; z-index: 20; }
         .music-btn { background: #000; border: 2px solid #00ff00; color: #00ff00; font-family: 'Courier New', Courier, monospace; font-weight: bold; padding: 10px 20px; border-radius: 50px; cursor: pointer; text-transform: uppercase; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+        .music-btn:hover { background: #00ff00; color: black; }
         .music-btn.playing { border-color: #ff3333; color: #ff3333; }
+        .music-btn.playing:hover { background: #ff3333; color: white; }
         
+        /* IMAGE & ZONES */
         .container { position: relative; max-width: 100%; width: 650px; }
         .hero-image { width: 100%; height: auto; display: block; min-height: 400px; background-color: #0a2e0a; }
 
-        /* --- ZONES --- */
         .hotspot { position: absolute; cursor: pointer; z-index: 10; background-color: transparent; }
         .btn-infos { top: 1%; right: 26%; width: 13%; height: 8%; }
         .btn-programme { top: 1%; right: 14%; width: 13%; height: 8%; }
@@ -33,7 +37,7 @@
         .btn-adresse-txt { bottom: 3%; left: 3%; width: 40%; height: 12%; }
         .btn-map-direct { bottom: 3%; right: 3%; width: 50%; height: 15%; }
 
-        /* --- MODALES --- */
+        /* MODALES */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
         .modal-content { background-color: #111; border: 2px solid #00ff00; box-shadow: 0 0 20px #00ff00; padding: 20px; width: 85%; max-width: 500px; text-align: left; position: relative; border-radius: 10px; max-height: 80vh; overflow-y: auto; }
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
@@ -49,7 +53,7 @@
         <form id="login-form" onsubmit="event.preventDefault(); checkCode();">
             <div class="scanner-line"></div>
             <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00; font-size: 24px;">ACCÈS CLASSÉ SECRET</h1>
-            <p>Mot de passe : <strong> </strong></p>
+            <p>Mot de passe : <strong>   </strong></p>
             <input type="text" id="code-input" placeholder="ENTRER LE CODE" autocomplete="off">
             <button type="submit" class="access-btn">Entrer</button>
             <p id="error-msg" style="color:red; display:none; margin-top:10px; font-weight:bold;">CODE INCORRECT</p>
@@ -62,93 +66,110 @@
         </div>
         <div class="container">
             <img src="gabriel-hero.jpg" alt="Invitation" class="hero-image">
+            
             <div class="hotspot btn-infos" onclick="openModal('modal-infos')"></div>
             <div class="hotspot btn-programme" onclick="openModal('modal-programme')"></div>
             <div class="hotspot btn-parents" onclick="openModal('modal-parents')"></div>
             <div class="hotspot btn-adresse-txt" onclick="openModal('modal-adresse')"></div>
-            <a href="https://www.google.com/maps/dir/?api=1&origin=Arrêt+Tram+T2+Jacqueline+Auriol&destination=300+rue+d'Estienne+d'Orves,+Colombes&travelmode=walking" target="_blank" class="hotspot btn-map-direct"></a>
+            
+            <a href="https://www.google.com/maps/dir/?api=1&origin=Arrêt+Tram+T2+Jacqueline+Auriol&destination=300+rue+d'Estienne+d'Orves,+Colombes&travelmode=walking" target="_blank" class="hotspot btn-map-direct" title="Voir l'itinéraire"></a>
         </div>
     </div>
 
     <div id="modal-infos" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-infos')">×</span><h2>INFOS</h2><p><strong>📅 Date :</strong> Dimanche 11 janvier 2026</p><p><strong>🕒 14h00 – 17h30</strong></p></div></div>
+    
     <div id="modal-programme" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-programme')">×</span><h2>PROGRAMME</h2><ul><li>14h00 : Accueil</li><li>Laser Game</li><li>Gâteau</li><li>17h30 : Fin</li></ul></div></div>
+    
     <div id="modal-parents" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-parents')">×</span><h2>CONTACTS</h2><p>Gengas : <a href="tel:0676142896" class="phone-link">06 76 14 28 96</a><br>David : <a href="tel:0673199720" class="phone-link">06 73 19 97 20</a></p><a href="https://wa.me/33673199720" target="_blank" class="whatsapp-btn">WHATSAPP</a></div></div>
+    
     <div id="modal-adresse" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-adresse')">×</span><h2>LIEU</h2><p>Chez Gabriel<br>300 rue d'Estienne d'Orves</p><iframe width="100%" height="250" style="border:0;" src="https://maps.google.com/maps?q=300+Rue+d'Estienne+d'Orves,+92700+Colombes&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe></div></div>
 
     <script>
-        // --- CHARGEMENT SONS ---
-        var music = new Audio('musique.mp3'); music.loop = true;
-        var breath = new Audio('swvader02.mp3'); 
+        // --- CHARGEMENT DES 3 FICHIERS AUDIO ---
+        var voice = new Audio('output.mp3'); 
+        var breath = new Audio('swvader02.mp3');
+        var music = new Audio('musique.mp3');
+        
+        // Timer pour gérer le silence de 10s
+        var musicTimer;
+        
         var isPlaying = false;
         var musicBtn = document.getElementById('music-btn');
 
-        // --- FONCTION DE SYNTHÈSE VOCALE (ROBUSTE) ---
-        function triggerVadorSpeech() {
-            // 1. On annule toute parole en cours pour éviter les bugs
-            window.speechSynthesis.cancel();
+        // --- GESTION DE LA RÉPÉTITION ESPACÉE (10s) ---
+        music.onended = function() {
+            if(isPlaying) {
+                // Quand la musique finit, on attend 10 secondes (10000ms)
+                musicTimer = setTimeout(function() {
+                    if(isPlaying) { // On vérifie si l'utilisateur n'a pas coupé le son entre temps
+                        music.play();
+                    }
+                }, 10000);
+            }
+        };
 
-            // 2. Préparation du message
-            var msg = new SpeechSynthesisUtterance("Soldat... Viens me défier... à l'anniversaire de Gabriel.");
-            msg.lang = 'fr-FR'; 
-            msg.volume = 1;
-            msg.rate = 0.8; // Lent
-            msg.pitch = 0.4; // Grave (Note: iOS ignore souvent le pitch, mais ça marchera sur PC)
-
-            // 3. Quand la voix a fini, on lance la musique
-            msg.onend = function(e) {
-                console.log("Fin de parole, musique !");
-                music.play();
-                isPlaying = true;
-                updateBtnUI();
-            };
-
-            // 4. Sécurité : Si la voix ne marche pas (bug navigateur), on lance la musique après 4 sec
-            setTimeout(function() {
-                if(music.paused) {
-                    music.play();
-                    isPlaying = true;
-                    updateBtnUI();
-                }
-            }, 5000);
-
-            // 5. EXECUTION IMMÉDIATE (Vital pour iOS)
-            window.speechSynthesis.speak(msg);
-            
-            // 6. On joue la respiration en même temps
-            breath.play().catch(e => console.log("Pas de fichier respiration, pas grave."));
-        }
-
-        // --- CHECK CODE ---
+        // --- VALIDATION DU CODE ---
         function checkCode() {
             var val = document.getElementById('code-input').value.trim().toLowerCase();
-            
             if(val === 'gabriel') {
-                // Masquer login
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
-                
-                // --- C'EST ICI QUE TOUT SE JOUE ---
-                // On appelle la fonction DIRECTEMENT dans l'événement du clic
-                triggerVadorSpeech();
-                
+                playAudioSequence();
             } else {
-                var err = document.getElementById('error-msg');
-                err.style.display = 'block';
-                err.innerHTML = "CODE INCORRECT";
+                document.getElementById('error-msg').style.display = 'block';
             }
         }
 
+        // --- SÉQUENCE : VOIX -> SOUFFLE -> MUSIQUE ---
+        function playAudioSequence() {
+            isPlaying = true;
+            updateBtnUI();
+
+            // 1. VOIX
+            var p1 = voice.play();
+
+            if (p1 !== undefined) {
+                p1.then(_ => {
+                    voice.onended = function() {
+                        // 2. SOUFFLE
+                        var p2 = breath.play();
+                        if (p2 !== undefined) {
+                            p2.then(_ => {
+                                breath.onended = function() {
+                                    // 3. MUSIQUE (qui gère sa propre répétition ensuite)
+                                    music.play();
+                                };
+                            }).catch(e => { music.play(); });
+                        } else {
+                            music.play();
+                        }
+                    };
+                }).catch(e => {
+                    music.play(); // Si erreur, on lance la musique direct
+                });
+            }
+        }
+
+        // --- BOUTON ACTIVER/DÉSACTIVER ---
         function toggleMusic() {
             if(isPlaying) {
-                music.pause(); window.speechSynthesis.cancel(); isPlaying = false;
+                // STOP TOTAL
+                voice.pause();
+                breath.pause();
+                music.pause();
+                clearTimeout(musicTimer); // On annule le timer s'il était en train de compter les 10s
+                isPlaying = false;
             } else {
-                music.play(); isPlaying = true;
+                // RELANCER
+                // On relance juste la musique d'ambiance
+                music.play();
+                isPlaying = true;
             }
             updateBtnUI();
         }
 
         function updateBtnUI() {
-            musicBtn.innerHTML = isPlaying ? "<span>🔇 Arrêter</span>" : "<span>🎵 Relancer</span>";
+            musicBtn.innerHTML = isPlaying ? "<span>🔇 Arrêter le son</span>" : "<span>🎵 Relancer le son</span>";
             musicBtn.classList.toggle('playing', isPlaying);
         }
 
