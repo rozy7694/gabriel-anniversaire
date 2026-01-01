@@ -49,7 +49,7 @@
         <form id="login-form" onsubmit="event.preventDefault(); checkCode();">
             <div class="scanner-line"></div>
             <h1 style="color:#00ff00; text-shadow: 0 0 10px #00ff00; font-size: 24px;">ACCÈS CLASSÉ SECRET</h1>
-            <p>Mot de passe : <strong> </strong></p>
+            <p>Mot de passe : <strong>GABRIEL</strong></p>
             <input type="text" id="code-input" placeholder="ENTRER LE CODE" autocomplete="off">
             <button type="submit" class="access-btn">Entrer</button>
             <p id="error-msg" style="color:red; display:none; margin-top:10px; font-weight:bold;">CODE INCORRECT</p>
@@ -73,61 +73,68 @@
     <div id="modal-infos" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-infos')">×</span><h2>INFOS</h2><p><strong>📅 Date :</strong> Dimanche 11 janvier 2026</p><p><strong>🕒 14h00 – 17h30</strong></p></div></div>
     <div id="modal-programme" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-programme')">×</span><h2>PROGRAMME</h2><ul><li>14h00 : Accueil</li><li>Laser Game</li><li>Gâteau</li><li>17h30 : Fin</li></ul></div></div>
     <div id="modal-parents" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-parents')">×</span><h2>CONTACTS</h2><p>Gengas : <a href="tel:0676142896" class="phone-link">06 76 14 28 96</a><br>David : <a href="tel:0673199720" class="phone-link">06 73 19 97 20</a></p><a href="https://wa.me/33673199720" target="_blank" class="whatsapp-btn">WHATSAPP</a></div></div>
-    <div id="modal-adresse" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-adresse')">×</span><h2>LIEU</h2><p>Chez Gabriel<br>300 rue d'Estienne d'Orves</p><iframe width="100%" height="250" style="border:0;" src="https://maps.google.com/maps?q=300+Rue+d'Estienne+d'Orves,+92700+Colombes&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe></div></div>
+    <div id="modal-adresse" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-adresse')">×</span><h2>LIEU</h2><p>Laser World Colombes<br>300 rue d'Estienne d'Orves</p><iframe width="100%" height="250" style="border:0;" src="https://maps.google.com/maps?q=300+Rue+d'Estienne+d'Orves,+92700+Colombes&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe></div></div>
 
     <script>
-        // --- SONS ---
+        // --- CHARGEMENT SONS ---
         var music = new Audio('musique.mp3'); music.loop = true;
-        
-        // Bruitage respiration (Optionnel, ne plante pas si absent)
         var breath = new Audio('swvader02.mp3'); 
-
         var isPlaying = false;
         var musicBtn = document.getElementById('music-btn');
 
-        // --- SYNTHÈSE VOCALE (LE ROBOT PARLE) ---
-        function speakVador() {
-            // Création de la phrase
-            var msg = new SpeechSynthesisUtterance();
-            msg.text = "soldat.... Viens me défier.... à l'anniversaire de Gabriel !";
-            msg.lang = 'fr-FR'; // Langue française
-            msg.volume = 1;
-            
-            // C'est ici qu'on transforme la voix
-            msg.rate = 0.8;  // Plus lent (0.1 à 10)
-            msg.pitch = 0.4; // Plus grave (0 à 2) - Essayez 0.1 pour un monstre
+        // --- FONCTION DE SYNTHÈSE VOCALE (ROBUSTE) ---
+        function triggerVadorSpeech() {
+            // 1. On annule toute parole en cours pour éviter les bugs
+            window.speechSynthesis.cancel();
 
-            // Quand le robot a fini de parler, on lance la musique
+            // 2. Préparation du message
+            var msg = new SpeechSynthesisUtterance("Soldat... Viens me défier... à l'anniversaire de Gabriel.");
+            msg.lang = 'fr-FR'; 
+            msg.volume = 1;
+            msg.rate = 0.8; // Lent
+            msg.pitch = 0.4; // Grave (Note: iOS ignore souvent le pitch, mais ça marchera sur PC)
+
+            // 3. Quand la voix a fini, on lance la musique
             msg.onend = function(e) {
+                console.log("Fin de parole, musique !");
                 music.play();
                 isPlaying = true;
                 updateBtnUI();
             };
 
-            // Lancer la respiration puis la parole
-            breath.play().catch(e => console.log("Pas de fichier respiration"));
-            
-            // Petit délai pour que la respiration commence avant la voix
+            // 4. Sécurité : Si la voix ne marche pas (bug navigateur), on lance la musique après 4 sec
             setTimeout(function() {
-                window.speechSynthesis.speak(msg);
-            }, 1000);
+                if(music.paused) {
+                    music.play();
+                    isPlaying = true;
+                    updateBtnUI();
+                }
+            }, 5000);
+
+            // 5. EXECUTION IMMÉDIATE (Vital pour iOS)
+            window.speechSynthesis.speak(msg);
+            
+            // 6. On joue la respiration en même temps
+            breath.play().catch(e => console.log("Pas de fichier respiration, pas grave."));
         }
 
         // --- CHECK CODE ---
         function checkCode() {
             var val = document.getElementById('code-input').value.trim().toLowerCase();
+            
             if(val === 'gabriel') {
+                // Masquer login
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
                 
-                isPlaying = true;
-                updateBtnUI();
-                
-                // Lancement de la séquence vocale automatique
-                speakVador();
+                // --- C'EST ICI QUE TOUT SE JOUE ---
+                // On appelle la fonction DIRECTEMENT dans l'événement du clic
+                triggerVadorSpeech();
                 
             } else {
-                document.getElementById('error-msg').style.display = 'block';
+                var err = document.getElementById('error-msg');
+                err.style.display = 'block';
+                err.innerHTML = "CODE INCORRECT";
             }
         }
 
@@ -141,7 +148,7 @@
         }
 
         function updateBtnUI() {
-            musicBtn.innerHTML = isPlaying ? "<span>🔇 Silence</span>" : "<span>🎵 Activer</span>";
+            musicBtn.innerHTML = isPlaying ? "<span>🔇 Arrêter</span>" : "<span>🎵 Relancer</span>";
             musicBtn.classList.toggle('playing', isPlaying);
         }
 
